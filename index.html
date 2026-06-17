@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seccol — Traevo</title>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg-app: #FAF9F6; /* Off-white premium chalky background */
+      --border-thick: 2px;
+      --border-super-thick: 3px;
+      --black: #000000;
+      --white: #ffffff;
+      --gray-50: #FAF9F6;
+      --gray-100: #F3F4F6;
+      --gray-200: #E5E7EB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-800: #1F2937;
+      --gray-900: #111827;
+      --accent-green: #10B981;
+      --accent-blue: #3B82F6;
+      --accent-amber: #F59E0B;
+      --accent-purple: #8B5CF6;
+      --shadow-offset: 5px;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-main);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--black);
+      background-color: var(--bg-app);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Helper Utility for Neo-Brutalism */
+    .neo-card {
+      background: var(--white);
+      border: var(--border-thick) solid var(--black);
+      border-radius: 16px;
+      box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--black);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .neo-card:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: calc(var(--shadow-offset) + 1px) calc(var(--shadow-offset) + 1px) 0px var(--black);
+    }
+
+    /* ── SIDEBAR (Aligned with image_89055e.png content in Neobrutalist design) ── */
+    .sidebar {
+      width: 280px;
+      background: var(--white);
+      border-right: var(--border-thick) solid var(--black);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding: 24px 16px;
+    }
+    .sb-brand {
+      padding-bottom: 20px;
+      border-bottom: var(--border-thick) solid var(--black);
+      margin-bottom: 20px;
+    }
+    .sb-brand .name {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -1.5px;
+    }
+    .sb-brand .org {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray-500);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+    .sb-section-label {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin: 16px 0 8px 8px;
+    }
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--black);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.1s ease;
+      margin-bottom: 2px;
+    }
+    .sb-item:hover {
+      background: var(--gray-100);
+      transform: translateX(2px);
+    }
+    .sb-item.active {
+      background: var(--black);
+      color: var(--white);
+    }
+    .sb-sub-item {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px 6px 28px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .sb-sub-item:hover {
+      color: var(--black);
+      transform: translateX(2px);
+    }
+    .sb-sub-item.active {
+      color: var(--black);
+      font-weight: 800;
+    }
+    .sb-divider {
+      border: none;
+      border-top: var(--border-thick) solid var(--black);
+      margin: 12px 0;
+    }
+    .sb-footer {
+      margin-top: auto;
+      padding: 14px 8px 0;
+      border-top: var(--border-thick) solid var(--black);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sb-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: var(--border-thick) solid var(--black);
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .sb-footer-info .name {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--black);
+    }
+    .sb-footer-info .email {
+      font-size: 11px;
+      color: var(--gray-500);
+    }
+
+    /* Mobile Navigation */
+    .mobile-header {
+      display: none;
+      background: var(--white);
+      border-bottom: var(--border-thick) solid var(--black);
+      padding: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mobile-brand {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+    .menu-toggle {
+      background: var(--white);
+      border: var(--border-thick) solid var(--black);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      margin-left: 280px;
+      flex: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 60px;
+    }
+
+    /* ── PROJECT HEADER ── */
+    .proj-header {
+      padding: 40px 48px 0;
+      background: var(--white);
+      border-bottom: var(--border-thick) solid var(--black);
+    }
+    .proj-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      margin-bottom: 16px;
+      transition: color 0.1s;
+    }
+    .proj-back:hover {
+      color: var(--black);
+    }
+    .proj-title-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .proj-title {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: var(--border-thick) solid var(--black);
+      background: var(--white);
+    }
+    .chip-ativo {
+      background: var(--black);
+      color: var(--white);
+    }
+    .proj-desc {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-500);
+      margin-bottom: 32px;
+      max-width: 900px;
+      line-height: 1.6;
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: -2px;
+      position: relative;
+      z-index: 5;
+    }
+    .tab {
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--black);
+      background: var(--white);
+      cursor: pointer;
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px 12px 0 0;
+      transition: all 0.12s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 2px -2px 0px var(--black);
+    }
+    .tab:hover {
+      background: var(--gray-100);
+      transform: translateY(-2px);
+    }
+    .tab.active {
+      background: var(--bg-app);
+      border-bottom-color: var(--bg-app);
+      box-shadow: none;
+      transform: translateY(2px);
+    }
+    .tab-badge {
+      background: var(--black);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 4px;
+    }
+
+    /* ── CONTENT AREA ── */
+    .content {
+      padding: 40px 48px;
+      flex: 1;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    /* ── KPI ROW ── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi {
+      border: var(--border-thick) solid var(--black);
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 4px 4px 0px var(--black);
+    }
+    .kpi label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 6px;
+    }
+    .kpi .val {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--black);
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .kpi .sub {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray-500);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* ── PIPELINE CARDS ── */
+    .pipe-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .pipe-card {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 14px;
+      background: var(--white);
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 4px 4px 0px var(--black);
+      transition: all 0.15s ease;
+    }
+    .pipe-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px var(--black);
+    }
+    .pc-hd {
+      background: var(--black);
+      padding: 16px;
+      color: var(--white);
+      border-bottom: var(--border-thick) solid var(--black);
+    }
+    .pc-hd .title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .pc-hd .sub {
+      font-size: 11px;
+      color: var(--gray-400);
+      margin-top: 4px;
+    }
+    .pc-bd {
+      padding: 16px;
+    }
+    .pc-stat {
+      font-size: 13px;
+      color: var(--gray-800);
+      margin-bottom: 6px;
+    }
+    .pc-link {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--black);
+      text-transform: uppercase;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ── DIAGNOSTIC CARDS ── */
+    .diag-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .diag-card {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px;
+      padding: 20px;
+      background: var(--white);
+    }
+    .diag-card h4 {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    .diag-card p {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+    .dc-amber { box-shadow: 4px 4px 0px var(--accent-amber); }
+    .dc-green { box-shadow: 4px 4px 0px var(--accent-green); }
+    .dc-blue { box-shadow: 4px 4px 0px var(--accent-blue); }
+    .dc-dark { box-shadow: 4px 4px 0px var(--black); }
+
+    /* ── BOX DE ALERTAS / INFORMAÇÕES ── */
+    .alert-box {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--black);
+      background: #FEF3C7; /* Soft amber */
+      box-shadow: 4px 4px 0px var(--black);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .info-box {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--black);
+      background: #DBEAFE; /* Soft blue */
+      box-shadow: 4px 4px 0px var(--black);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ── PIPELINES PAGE ── */
+    .inner-tabs {
+      display: inline-flex;
+      gap: 6px;
+      background: var(--gray-100);
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px;
+      padding: 6px;
+      margin-bottom: 24px;
+    }
+    .inner-tab {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--gray-500);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+    .inner-tab.active {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: 2px 2px 0px var(--black);
+    }
+    .inner-pane {
+      display: none;
+    }
+    .inner-pane.active {
+      display: block;
+    }
+
+    /* ── ETAPA ACCORDION ── */
+    .etapa {
+      background: var(--white);
+      border: var(--border-thick) solid var(--black);
+      border-radius: 14px;
+      box-shadow: 4px 4px 0px var(--black);
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: all 0.15s ease;
+    }
+    .etapa:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px var(--black);
+    }
+    .etapa-hd {
+      background: var(--white);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .etapa-hd .num-badge {
+      background: var(--black);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .etapa-hd h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--black);
+      flex: 1;
+    }
+    .etapa-hd .resp {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      padding: 2px 8px;
+      border-radius: 20px;
+      border: 1px solid var(--gray-200);
+    }
+    .etapa-hd .chev {
+      color: var(--black);
+      font-size: 12px;
+      transition: transform 0.2s;
+    }
+    .etapa-hd.open .chev {
+      transform: rotate(180deg);
+    }
+    .etapa-body {
+      display: none;
+      border-top: var(--border-thick) solid var(--black);
+      background: var(--white);
+    }
+    .etapa-body.open {
+      display: block;
+    }
+
+    /* ── SUB HEADERS FOR ACCORDION ── */
+    .sub-hd {
+      padding: 8px 20px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+    }
+
+    /* ── DATA TABLES ── */
+    .neo-table-wrapper {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 20px 24px;
+      background: var(--white);
+      box-shadow: 3px 3px 0px var(--black);
+    }
+    .neo-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .neo-table th {
+      background: var(--gray-100);
+      color: var(--black);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      border-bottom: var(--border-thick) solid var(--black);
+    }
+    .neo-table td {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border-bottom: 1px solid var(--gray-200);
+      color: var(--black);
+    }
+    .neo-table tr:last-child td {
+      border-bottom: none;
+    }
+    .neo-table tr.hl td {
+      background: #FEF3C7 !important; /* Soft yellow for emphasis */
+    }
+    .neo-table .nc {
+      font-weight: 800;
+      color: var(--gray-500);
+      width: 40px;
+    }
+
+    /* ── FATURAMENTO PAGE ── */
+    .sec-hd {
+      margin-bottom: 24px;
+    }
+    .sec-hd h2 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .fat-alert-bar {
+      display: flex;
+      justify-content: space-between;
+      background: var(--white);
+      border: var(--border-thick) solid var(--black);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+      box-shadow: 4px 4px 0px var(--black);
+    }
+    .fat-alert-bar .val {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--black);
+    }
+    .fat-table-wrapper {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 5px 5px 0px var(--black);
+      margin-bottom: 32px;
+    }
+    .fat-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .fat-table th {
+      background: var(--black);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 14px 20px;
+      text-align: left;
+    }
+    .fat-table td {
+      padding: 16px 20px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .fat-table tr:last-child td {
+      border-bottom: none;
+    }
+    .td-item-title {
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .td-item-desc {
+      font-size: 12px;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+    .td-val {
+      font-weight: 800;
+      text-align: right;
+    }
+    .fat-chip {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--black);
+    }
+    .fc-green { background: #D1FAE5; color: #065F46; }
+    .fc-blue { background: #DBEAFE; color: #1E40AF; }
+    .fc-amber { background: #FEF3C7; color: #92400E; }
+
+    .fat-footer {
+      background: var(--gray-100);
+      border-top: var(--border-thick) solid var(--black);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .fat-footer .total-label {
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .fat-footer .total-val {
+      font-size: 22px;
+      font-weight: 900;
+      text-align: right;
+    }
+
+    /* ── OS TABLE ── */
+    .os-blk-hd td {
+      background: var(--black) !important;
+      color: var(--white) !important;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    .status-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--black);
+    }
+    .sb-green { background: #D1FAE5; color: #065F46; }
+    .sb-amber { background: #FEF3C7; color: #92400E; }
+
+    /* ── INTEGRAÇÕES ── */
+    .int-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .int-card {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 4px 4px 0px var(--black);
+    }
+    .int-card .ich {
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .int-card .icb {
+      padding: 16px;
+    }
+    .int-row {
+      font-size: 13px;
+      color: var(--black);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .int-row .dot {
+      color: var(--black);
+      font-weight: 800;
+    }
+
+    /* ── STATUS COLS ── */
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    .status-col {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 14px;
+      padding: 24px;
+      background: var(--white);
+    }
+    .status-col h3 {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: inline-block;
+      border-bottom: 3px solid var(--black);
+      padding-bottom: 4px;
+    }
+    .status-list {
+      list-style: none;
+    }
+    .status-list li {
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .status-list li:last-child {
+      border-bottom: none;
+    }
+
+    .ns-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .ns-card {
+      border: var(--border-thick) solid var(--black);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 3px 3px 0px var(--black);
+    }
+    .ns-hd {
+      background: var(--black);
+      color: var(--white);
+      padding: 10px 16px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .ns-bd {
+      padding: 16px;
+    }
+    .ns-item {
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+    }
+
+    /* ── TOAST SYSTEM ── */
+    .neo-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--white);
+      border: var(--border-thick) solid var(--black);
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 4px 4px 0px var(--black);
+      font-weight: 800;
+      font-size: 13px;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+    .neo-toast.show {
+      display: flex;
+      animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(50px) scale(0.9); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ADAPTATIONS ── */
+    @media (max-width: 1024px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        top: 60px; /* Below mobile header */
+        width: 100%;
+        height: calc(100vh - 60px);
+        box-shadow: none;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .mobile-header {
+        display: flex;
+      }
+      .main {
+        margin-left: 0;
+      }
+      .proj-header {
+        padding: 24px 20px 0;
+      }
+      .content {
+        padding: 24px 20px;
+      }
+      .kpi-row, .pipe-grid, .int-grid, .status-grid, .ns-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MOBILE HEADER -->
+  <header class="mobile-header">
+    <div class="mobile-brand">Traevo</div>
+    <button class="menu-toggle" onclick="toggleMobileSidebar()">Menu</button>
+  </header>
+
+  <!-- ── SIDEBAR (Structure directly inspired by image_89055e.png) ── -->
+  <aside class="sidebar" id="app-sidebar">
+    <div class="sb-brand">
+      <div class="name">Traevo</div>
+      <div class="org">Hub de Soluções em Tecnologia · Gold Partner Bitrix24</div>
+    </div>
+
+    <!-- PROJETO SECTION -->
+    <div class="sb-section-label">Projeto</div>
+    <div class="sb-item active" id="sb-item-visao" onclick="switchMain('visao')">
+      <span>🏠</span> Visão Geral
+    </div>
+    <div class="sb-item" id="sb-item-diag" onclick="switchMain('visao'); scrollToDiagnostics();">
+      <span>🔍</span> Diagnóstico
+    </div>
+
+    <!-- PIPELINES SECTION -->
+    <div class="sb-section-label">Pipelines</div>
+    <div class="sb-item" id="sb-item-pipelines-root" onclick="switchMain('pipelines')">
+      <span>📊</span> Visão dos Pipelines
+    </div>
+    <div class="sb-sub-item" id="sb-sub-vendas" onclick="switchMain('pipelines'); switchInner('vendas')">
+      ↳ Vendas
+    </div>
+    <div class="sb-sub-item" id="sb-sub-manutencao" onclick="switchMain('pipelines'); switchInner('manutencao')">
+      ↳ Manutenção
+    </div>
+    <div class="sb-sub-item" id="sb-sub-faturamento" onclick="switchMain('pipelines'); switchInner('faturamento')">
+      ↳ Faturamento
+    </div>
+
+    <!-- DOCUMENTOS SECTION -->
+    <div class="sb-section-label">Documentos</div>
+    <div class="sb-item" id="sb-item-os" onclick="switchMain('os')">
+      <span>📄</span> Ordem de Serviço
+    </div>
+    <div class="sb-item" id="sb-item-integracoes" onclick="switchMain('integracoes')">
+      <span>🔗</span> Integrações
+    </div>
+    <div class="sb-item" id="sb-item-bi" onclick="switchMain('integracoes')">
+      <span>📈</span> Indicadores &amp; BI
+    </div>
+
+    <!-- STATUS SECTION -->
+    <div class="sb-section-label">Status</div>
+    <div class="sb-item" id="sb-item-status" onclick="switchMain('status')">
+      <span>✅</span> O que temos / A definir
+    </div>
+    <div class="sb-item" id="sb-item-proximos" onclick="switchMain('status'); scrollToNextSteps();">
+      <span>🚀</span> Próximos Passos
+    </div>
+
+    <!-- USER FOOTER -->
+    <div class="sb-footer">
+      <div class="sb-avatar">NM</div>
+      <div class="sb-footer-info">
+        <div class="name">Nelly Miranda</div>
+        <div class="email">nelly.miranda@traevo.com.br</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- PROJECT HEADER -->
+    <div class="proj-header">
+      <div class="proj-back" onclick="switchMain('visao')">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Projetos
+      </div>
+      <div class="proj-title-row">
+        <span class="proj-title">Seccol — Controle de Contaminação Ambiental</span>
+        <span class="chip chip-ativo">Ativo</span>
+      </div>
+      <div class="proj-desc">Implementação Bitrix24 CRM · Pipelines comercial, operacional e financeiro · Automações e integrações de canais. Diagnóstico concluído em 12/06/2026.</div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <div class="tab active" onclick="switchMain('visao')">
+          <span>🏠</span> Visão Geral
+        </div>
+        <div class="tab" onclick="switchMain('pipelines')">
+          <span>📊</span> Pipelines <span class="tab-badge">19</span>
+        </div>
+        <div class="tab" onclick="switchMain('faturamento')">
+          <span>💰</span> Proposta de Valores
+        </div>
+        <div class="tab" onclick="switchMain('os')">
+          <span>📄</span> Ordem de Serviço
+        </div>
+        <div class="tab" onclick="switchMain('integracoes')">
+          <span>🔗</span> Integrações &amp; BI
+        </div>
+        <div class="tab" onclick="switchMain('status')">
+          <span>✅</span> Status
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT AREA -->
+    <div class="content">
+
+      <!-- ══ VISÃO GERAL (Full Width Layout with Diagnostics & Pillars) ══ -->
+      <div class="tab-pane active" id="tp-visao">
+        <div class="kpi-row">
+          <div class="kpi">
+            <label>Pipelines</label>
+            <div class="val">3</div>
+            <div class="sub">Vendas · Manutenção · Faturamento</div>
+          </div>
+          <div class="kpi">
+            <label>Etapas Mapeadas</label>
+            <div class="val">19</div>
+            <div class="sub">7 + 7 + 5 etapas com campos e automações</div>
+          </div>
+          <div class="kpi">
+            <label>Diagnóstico</label>
+            <div class="val">12/06</div>
+            <div class="sub">Reunião 36 min · Carla, Ivana, Milena</div>
+          </div>
+        </div>
+
+        <div class="pipe-grid">
+          <div class="pipe-card" onclick="switchMain('pipelines');switchInner('vendas')">
+            <div class="pc-hd">
+              <div class="title">Pipeline Vendas</div>
+              <div class="sub">Novo cliente · Venda consultiva</div>
+            </div>
+            <div class="pc-bd">
+              <div class="pc-stat"><strong>7 etapas</strong></div>
+              <div class="pc-stat">Milena → Ivana → Carla</div>
+              <span class="pc-link">Ver pipeline →</span>
+            </div>
+          </div>
+
+          <div class="pipe-card" onclick="switchMain('pipelines');switchInner('manutencao')">
+            <div class="pc-hd">
+              <div class="title">Pipeline Manutenção</div>
+              <div class="sub">Recorrência · Ciclo de vida</div>
+            </div>
+            <div class="pc-bd">
+              <div class="pc-stat"><strong>7 etapas</strong></div>
+              <div class="pc-stat">Semestral (~70% dos clientes)</div>
+              <span class="pc-link">Ver pipeline →</span>
+            </div>
+          </div>
+
+          <div class="pipe-card" onclick="switchMain('pipelines');switchInner('faturamento')">
+            <div class="pc-hd">
+              <div class="title">Pipeline Faturamento</div>
+              <div class="sub">NF · Pagamento · Controle</div>
+            </div>
+            <div class="pc-bd">
+              <div class="pc-stat"><strong>5 etapas</strong></div>
+              <div class="pc-stat">Disparado pela Manutenção</div>
+              <span class="pc-link">Ver pipeline →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll anchor for Diagnostic link -->
+        <div id="diagnostics-section" style="scroll-margin-top: 40px;">
+          <div class="diag-grid">
+            <div class="diag-card dc-amber">
+              <h4>Principal Problema Identificado</h4>
+              <p>O maior problema da Seccol é a ausência de estrutura para escalar. Hoje tudo funciona na cabeça das pessoas. O controle de clientes está numa planilha, o histórico de atendimentos está no WhatsApp de alguém, o agendamento está na memória, e o acompanhamento financeiro depende de alguém lembrar de conferir.</p>
+            </div>
+            <div class="diag-card dc-green">
+              <h4>Oportunidade Central</h4>
+              <p>Nicho especializado, baixo volume, alta recorrência. Modelo ideal: <strong>controle preciso do ciclo de vida</strong> — saber exatamente quando cada equipamento vence e garantir ciclo completo até pagamento.</p>
+            </div>
+            <div class="diag-card dc-blue">
+              <h4>Equipe</h4>
+              <p>Carla (diretora), Ivana (supervisora), Milena (prospecção, já usa Bitrix24). Técnicos externos acessam via Bitrix24 Mobile (geolocalização + check-in/out automático).</p>
+            </div>
+            <div class="diag-card dc-dark">
+              <h4>Canais Atuais</h4>
+              <p>WhatsApp, telefone e e-mail — hoje desconectados. Solução: integrar tudo ao CRM para histórico centralizado, gravação de ligações (VoIP) e templates automáticos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>Princípio Traevo:</strong> "Processo antes da tecnologia." Este documento mapeia o processo antes de qualquer configuração. Implementação inicia após validação de cada pipeline com a equipe Seccol.
+        </div>
+      </div>
+
+      <!-- ══ PIPELINES ══ -->
+      <div class="tab-pane" id="tp-pipelines">
+        <div class="inner-tabs">
+          <button class="inner-tab active" onclick="switchInner('vendas')">📊 Vendas</button>
+          <button class="inner-tab" onclick="switchInner('manutencao')">🔧 Manutenção</button>
+          <button class="inner-tab" onclick="switchInner('faturamento')">💰 Faturamento (pipeline)</button>
+        </div>
+
+        <!-- Inner Pane: Vendas -->
+        <div class="inner-pane active" id="ip-vendas">
+          <div class="neo-card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
+            <div class="pc-hd" style="background: var(--black); border: none;">
+              <h3 style="font-size: 16px; font-weight: 900;">Funil Comercial — Novo Cliente</h3>
+              <p style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">Venda consultiva · Nicho técnico · Ciclo médio 15–45 dias · 7 Etapas</p>
+            </div>
+            <div class="neo-table-wrapper" style="margin: 0; border: none; box-shadow: none;">
+              <table class="neo-table">
+                <tr><td style="font-weight: 800; width: 25%; background: var(--gray-100);">Objetivo</td><td>Converter oportunidades em clientes ativos com contrato ou acordo de manutenção periódica.</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Responsáveis</td><td>Milena (prospecção) → Ivana (qualificação) → Carla (proposta, negociação, fechamento)</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Perfil do Comprador</td><td>Decisor técnico (embriologista, farmacêutico responsável, gestor de área limpa). Venda consultiva.</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Integração</td><td>Ao fechar, dispara card no <strong>Pipeline Manutenção</strong> com periodicidade e data da 1ª manutenção.</td></tr>
+              </table>
+            </div>
+          </div>
+          <div id="etapas-vendas"></div>
+        </div>
+
+        <!-- Inner Pane: Manutencao -->
+        <div class="inner-pane" id="ip-manutencao">
+          <div class="neo-card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
+            <div class="pc-hd" style="background: var(--black); border: none;">
+              <h3 style="font-size: 16px; font-weight: 900;">Funil Manutenção — Recorrência</h3>
+              <p style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">Controle de ciclo de vida · Ativação proativa · Rastreabilidade completa · 7 Etapas</p>
+            </div>
+            <div class="neo-table-wrapper" style="margin: 0; border: none; box-shadow: none;">
+              <table class="neo-table">
+                <tr><td style="font-weight: 800; width: 25%; background: var(--gray-100);">Objetivo</td><td>Garantir que nenhuma manutenção seja esquecida: programação → confirmação → OS → execução → laudo → faturamento.</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Responsáveis</td><td>Carla / Ivana (agendamento), Técnicos externos (execução), Ivana (laudo e encerramento)</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Periodicidade</td><td>Semestral (~70%), quadrimestral, trimestral, anual</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Integração</td><td>Ao encerrar (Etapa 07): dispara card no <strong>Pipeline Faturamento</strong> + recria próximo card com nova data.</td></tr>
+              </table>
+            </div>
+          </div>
+          <div id="etapas-manutencao"></div>
+        </div>
+
+        <!-- Inner Pane: Faturamento -->
+        <div class="inner-pane" id="ip-faturamento">
+          <div class="neo-card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
+            <div class="pc-hd" style="background: var(--black); border: none;">
+              <h3 style="font-size: 16px; font-weight: 900;">Funil Faturamento — Controle Financeiro</h3>
+              <p style="font-size: 12px; color: var(--gray-400); margin-top: 4px;">Da NF ao pagamento confirmado · Elimina gap da planilha legada · 5 Etapas</p>
+            </div>
+            <div class="neo-table-wrapper" style="margin: 0; border: none; box-shadow: none;">
+              <table class="neo-table">
+                <tr><td style="font-weight: 800; width: 25%; background: var(--gray-100);">Objetivo</td><td>Eliminar o gap das colunas em branco (NF, Nº Relatório, Data Envio), garantindo faturamento sistemático de todo serviço executado.</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Responsáveis</td><td>Equipe de faturamento / Carla (aprovações e exceções)</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Origem dos cards</td><td>Automação do Pipeline Manutenção (Etapa 07) + Pipeline Vendas (projetos e vendas pontuais)</td></tr>
+                <tr><td style="font-weight: 800; background: var(--gray-100);">Atenção</td><td>Processo interno de faturamento (sistema NF, fluxo de aprovação, prazos) <strong>a ser detalhado na consultoria</strong>.</td></tr>
+              </table>
+            </div>
+          </div>
+          <div id="etapas-fat-pipeline"></div>
+        </div>
+      </div>
+
+      <!-- ══ PROPOSTA DE VALORES (was Faturamento) ══ -->
+      <div class="tab-pane" id="tp-faturamento">
+        <div class="sec-hd">
+          <h2>Proposta de Valores</h2>
+        </div>
+
+        <div class="fat-alert-bar">
+          <div>
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--gray-400);">Valor do Projeto</div>
+            <div class="val">R$ 10.818,32</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--gray-400);">Recorrente WhatsApp</div>
+            <div class="val" style="color: var(--accent-amber);">R$ 197,00/mês</div>
+          </div>
+        </div>
+
+        <div class="fat-table-wrapper">
+          <table class="fat-table">
+            <thead>
+              <tr>
+                <th style="width: 40%">Item</th>
+                <th>Detalhes</th>
+                <th style="text-align: right; width: 160px">Valor</th>
+                <th style="width: 120px; text-align: center;">Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="td-item-title">Licença Bitrix24 Standard</div>
+                  <div class="td-item-desc">Plataforma CRM com desconto aplicado</div>
+                </td>
+                <td>
+                  <div style="font-size: 12px; color: var(--gray-500)">Desconto de <strong style="color: var(--accent-green)">36%</strong> aplicado</div>
+                  <div style="font-size: 12px; color: var(--gray-500)">Valor sem desconto: R$ 8.388,00</div>
+                </td>
+                <td class="td-val">R$ 5.368,32</td>
+                <td style="text-align: center;"><span class="fat-chip fc-green">Licença</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-item-title">Consultoria de Implantação</div>
+                  <div class="td-item-desc">Configuração de pipelines, automações e documentos no Bitrix24</div>
+                </td>
+                <td>
+                  <div style="font-size: 12px; color: var(--gray-500)">20 hours × R$ 272,50/h</div>
+                  <div style="font-size: 12px; color: var(--gray-500)">Inclui: pipelines, campos, automações, integrações</div>
+                </td>
+                <td class="td-val">R$ 5.450,00</td>
+                <td style="text-align: center;"><span class="fat-chip fc-blue">Consultoria</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-item-title">Consultoria de Análise &amp; Processos</div>
+                  <div class="td-item-desc">Mapeamento e modelagem de processos — pacote fechado</div>
+                </td>
+                <td>
+                  <div style="font-size: 12px; color: var(--gray-500)">Opcional (pode constituir e ser somada ao valor principal)</div>
+                  <div style="font-size: 12px; color: var(--gray-500)">Entrega de playbooks e bases de conhecimento</div>
+                </td>
+                <td class="td-val">R$ 1.850,00</td>
+                <td style="text-align: center;"><span class="fat-chip fc-amber" style="background: #FFFBEB; color: #D97706; border-color: #FDE68A;">Opcional</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-item-title">Integrador WhatsApp (Não-oficial)</div>
+                  <div class="td-item-desc">Conexão WhatsApp ao Bitrix24</div>
+                </td>
+                <td>
+                  <div style="font-size: 12px; color: var(--gray-500)">Cobrança mensal recorrente</div>
+                  <div style="font-size: 12px; color: var(--gray-500)">Permite múltiplos atendimentos e disparos estruturados</div>
+                </td>
+                <td class="td-val">R$ 197,00/mês</td>
+                <td style="text-align: center;"><span class="fat-chip fc-amber">Recorrente</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="fat-footer">
+            <div class="total-label">Valor do Projeto</div>
+            <div class="total-val">
+              R$ 10.818,32
+              <div style="font-size: 11px; font-weight: 600; color: var(--gray-500); margin-top: 4px;">R$ 12.668,32 com Consultoria de Processos inclusa · + R$ 197,00/mês (WhatsApp)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diag-grid">
+          <div class="diag-card dc-dark" style="background: var(--white);">
+            <h4 style="font-size: 15px; font-weight: 800; border-bottom: 2px solid var(--black); padding-bottom: 6px; margin-bottom: 12px;">O que está incluído no Escopo de Implantação</h4>
+            <p>Configuração completa dos 3 pipelines (Vendas, Manutenção, Faturamento) com suas respectivas etapas estruturadas, campos fundamentais, regras de validação e gatilhos automáticos. Conexão integrada de canais e parametrização para emissão das OS em PDF.</p>
+          </div>
+          <div class="diag-card dc-dark" style="background: var(--white);">
+            <h4 style="font-size: 15px; font-weight: 800; border-bottom: 2px solid var(--black); padding-bottom: 6px; margin-bottom: 12px;">Pacote Opcional de Processos</h4>
+            <p>Se contratado, engloba o mapeamento e formalização estrita de fluxos, resultando na criação de uma **Base de Conhecimento** técnica e no **Playbook Comercial Seccol**, garantindo autonomia à equipe.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ ORDEM DE SERVIÇO ══ -->
+      <div class="tab-pane" id="tp-os">
+        <div class="info-box">
+          <strong>Como funciona:</strong> A OS é preenchida em campos dentro do card e gerada automaticamente em PDF, podendo ser acessada pelo técnico em sua tarefa e App Mobile Bitrix24.
+        </div>
+
+        <div class="neo-card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
+          <div class="pc-hd" style="background: var(--black); border: none;">
+            <h3 style="font-size: 16px; font-weight: 900;">Campos da Ordem de Serviço — Origem no CRM</h3>
+          </div>
+          <div class="neo-table-wrapper" style="margin: 0; border: none; box-shadow: none;">
+            <table class="neo-table">
+              <thead>
+                <tr>
+                  <th style="width:25%">Campo</th>
+                  <th style="width:30%">Descrição</th>
+                  <th style="width:25%">Origem no CRM</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="os-blk-hd"><td colspan="4">BLOCO 1 — DADOS DO CLIENTE</td></tr>
+                <tr><td>Razão Social / Nome</td><td>Nome oficial do cliente</td><td>Cadastro do contato/empresa</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                <tr><td>CNPJ / CPF</td><td>Documento fiscal</td><td>Campo cadastral do cliente</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                <tr><td>Endereço Completo</td><td>Local de execução</td><td>Endereço do cliente no CRM</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                <tr><td>Contato Responsável</td><td>Decisor técnico do cliente</td><td>Contato principal do card</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                
+                <tr class="os-blk-hd"><td colspan="4">BLOCO 2 — IDENTIFICAÇÃO DA OS</td></tr>
+                <tr><td>Nº da OS</td><td>Número sequencial único</td><td>Gerado automaticamente</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                <tr><td>Data de Emissão</td><td>Data de geração do documento</td><td>Data de criação do card</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                <tr><td>Data Prevista de Execução</td><td>Data agendada</td><td>Campo "Data Confirmada da Manutenção"</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                <tr><td>Técnico Responsável</td><td>Nome do técnico designado</td><td>Campo "Técnico Designado"</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                
+                <tr class="os-blk-hd"><td colspan="4">BLOCO 3 — EQUIPAMENTOS</td></tr>
+                <tr><td>Tipo de Equipamento</td><td>Cabine de Segurança Biológica, Laminar Flow, etc.</td><td>Campo "Equipamentos" do card</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                <tr><td>Marca / Modelo</td><td>Fabricante e modelo</td><td>Campo detalhado de equipamentos</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                <tr><td>Nº de Série</td><td>Identificação única do equipamento</td><td>A criar no levantamento técnico</td><td><span class="status-badge sb-amber">⏳ Consultoria</span></td></tr>
+                <tr><td>Localização no Ambiente</td><td>Sala B, área limpa ISO 5, etc.</td><td>A criar no levantamento técnico</td><td><span class="status-badge sb-amber">⏳ Consultoria</span></td></tr>
+                
+                <tr class="os-blk-hd"><td colspan="4">BLOCO 4 — ATIVIDADE SOLICITADA</td></tr>
+                <tr><td>Tipo de Serviço</td><td>Certificação, Preventiva, Corretiva, Projeto</td><td>Campo "Tipo de Serviço"</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                <tr><td>Certificação Exigida</td><td>ANVISA, SBCC, ISO 14644, outra</td><td>Campo "Certificação Exigida"</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                <tr><td>Periodicidade</td><td>Trimestral / Semestral / Anual</td><td>Campo "Periodicidade Acordada"</td><td><span class="status-badge sb-green">✅ Disponível</span></td></tr>
+                <tr><td>Observações Especiais</td><td>Instruções específicas do cliente</td><td>A criar no card</td><td><span class="status-badge sb-amber">⏳ Consultoria</span></td></tr>
+                
+                <tr class="os-blk-hd"><td colspan="4">BLOCO 5 — ATIVIDADE EXECUTADA</td></tr>
+                <tr><td>Atividade Executada</td><td>O que foi realizado em campo</td><td>Preenchido após execução</td><td><span class="status-badge sb-amber">⏳ Pós-execução</span></td></tr>
+                <tr><td>Itens Substituídos</td><td>Consumíveis trocados (filtros, peças)</td><td>Campo "Itens Substituídos"</td><td><span class="status-badge sb-amber">⏳ Pós-execução</span></td></tr>
+                <tr><td>Data/Hora Real de Execução</td><td>Check-in e check-out</td><td>App Bitrix24 Mobile (automático)</td><td><span class="status-badge sb-green">✅ Auto (app)</span></td></tr>
+                <tr><td>Geolocalização</td><td>Coordenadas GPS no check-in</td><td>App Bitrix24 Mobile (automático)</td><td><span class="status-badge sb-green">✅ Auto (app)</span></td></tr>
+                
+                <tr class="os-blk-hd"><td colspan="4">BLOCO 6 — ENCERRAMENTO</td></tr>
+                <tr><td>Próxima Manutenção</td><td>Data calculada pela periodicidade</td><td>Calculado automaticamente</td><td><span class="status-badge sb-green">✅ Auto</span></td></tr>
+                <tr><td>Nº do Relatório / Laudo</td><td>Referência do laudo técnico</td><td>Campo "Nº do Relatório"</td><td><span class="status-badge sb-amber">⏳ Pós-execução</span></td></tr>
+                <tr><td>Aceite do Cliente</td><td>Confirmação de recebimento</td><td>A definir: WhatsApp ou assinatura digital</td><td><span class="status-badge sb-amber">⏳ Consultoria</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ INTEGRAÇÕES & BI ══ -->
+      <div class="tab-pane" id="tp-integracoes">
+        <div class="int-grid">
+          <div class="int-card" style="border-color: var(--accent-amber);">
+            <div class="ich" style="background: var(--accent-amber); color: var(--black);">📱 WhatsApp Business (Não-Oficial)</div>
+            <div class="icb">
+              <div class="int-row" style="font-weight: 700; color: var(--accent-amber);">Custo: R$ 197,00 / mês</div>
+              <div class="int-row"><span class="dot">→</span>Conversas centralizadas diretamente no CRM</div>
+              <div class="int-row"><span class="dot">→</span>Envio de lembretes, OS e notificações estruturadas</div>
+              <div class="int-row"><span class="dot">→</span>Atendimento multiagente simultâneo pela equipe</div>
+            </div>
+          </div>
+          <div class="int-card">
+            <div class="ich">📞 Telefonia VoIP</div>
+            <div class="icb">
+              <div class="int-row" style="font-weight: 700;">Custo: A Definir</div>
+              <div class="int-row"><span class="dot">→</span>Ligações discadas e recebidas dentro do Bitrix24</div>
+              <div class="int-row"><span class="dot">→</span>Gravação automatizada das chamadas</div>
+              <div class="int-row"><span class="dot">→</span>Histórico centralizado na timeline do card</div>
+            </div>
+          </div>
+          <div class="int-card" style="border-color: var(--accent-green);">
+            <div class="ich" style="background: var(--accent-green); color: var(--white);">✉️ E-mail Corporativo</div>
+            <div class="icb">
+              <div class="int-row" style="font-weight: 700; color: var(--accent-green);">Sem custo mensal adicional</div>
+              <div class="int-row"><span class="dot">→</span>Caixa de entrada nativa integrada ao Bitrix24</div>
+              <div class="int-row"><span class="dot">→</span>Vinculação de e-mails automatizada por contato</div>
+              <div class="int-row"><span class="dot">→</span>Templates de propostas e relatórios prontos</div>
+            </div>
+          </div>
+        </div>
+        <div class="int-grid">
+          <div class="int-card">
+            <div class="ich">💰 BI Comercial</div>
+            <div class="icb">
+              <div class="int-row" style="font-weight: 700;">Sem custo mensal adicional</div>
+              <div class="int-row"><span class="dot">→</span>Métricas de Leads e Oportunidades ativos</div>
+              <div class="int-row"><span class="dot">→</span>Taxas de conversão exatas por etapa do funil</div>
+              <div class="int-row"><span class="dot">→</span>Velocidade média do ciclo de vendas</div>
+            </div>
+          </div>
+          <div class="int-card">
+            <div class="ich">🔧 BI Operacional</div>
+            <div class="icb">
+              <div class="int-row" style="font-weight: 700;">Sem custo mensal adicional</div>
+              <div class="int-row"><span class="dot">→</span>Cronograma de manutenções previstas para 12 meses</div>
+              <div class="int-row"><span class="dot">→</span>Visão detalhada de preventivas vs corretivas</div>
+              <div class="int-row"><span class="dot">→</span>Indicadores de produtividade de técnicos externos</div>
+            </div>
+          </div>
+          <div class="int-card">
+            <div class="ich">📊 BI Financeiro</div>
+            <div class="icb">
+              <div class="int-row" style="font-weight: 700;">Sem custo mensal adicional</div>
+              <div class="int-row"><span class="dot">→</span>Faturamento mensal projetado por propostas ganhas</div>
+              <div class="int-row"><span class="dot">→</span>Volume de inadimplência e boletos vencidos</div>
+              <div class="int-row"><span class="dot">→</span>Faturamento real extraído de NFs validadas</div>
+            </div>
+          </div>
+        </div>
+        <div class="alert-box">⚠️ Painéis analíticos e relatórios de BI são nativos da licença adquirida e não geram faturamento extra recorrente à Traevo.</div>
+      </div>
+
+      <!-- ══ STATUS ══ -->
+      <div class="tab-pane" id="tp-status">
+        <div class="status-grid">
+          <div class="status-col">
+            <h3>✅ O que já temos</h3>
+            <ul class="status-list">
+              <li><span>✅</span><span>Diagnóstico completo do processo atual</span></li>
+              <li><span>✅</span><span>Catálogo de serviços e equipamentos mapeado</span></li>
+              <li><span>✅</span><span>Arquitetura dos 3 pipelines definida (19 etapas)</span></li>
+              <li><span>✅</span><span>Campos obrigatórios por etapa</span></li>
+              <li><span>✅</span><span>Automações propostas por etapa</span></li>
+              <li><span>✅</span><span>Estrutura completa da OS com origem dos campos</span></li>
+              <li><span>✅</span><span>Análise da planilha Excel legada (gap identificado)</span></li>
+              <li><span>✅</span><span>Indicadores de BI propostos</span></li>
+              <li><span>✅</span><span>Canais de comunicação definidos (WhatsApp + VoIP + e-mail)</span></li>
+            </ul>
+          </div>
+          <div class="status-col">
+            <h3>⏳ A definir na consultoria</h3>
+            <ul class="status-list">
+              <li><span>⏳</span><span>Processo interno de faturamento (sistema NF, fluxo de aprovação)</span></li>
+              <li><span>⏳</span><span>Tabela de preços por tipo de serviço e equipamento</span></li>
+              <li><span>⏳</span><span>Templates de proposta comercial oficial Seccol</span></li>
+              <li><span>⏳</span><span>Nº de série e localização de equipamentos por cliente</span></li>
+              <li><span>⏳</span><span>Aceite da OS (assinatura digital ou confirmação WhatsApp)</span></li>
+              <li><span>⏳</span><span>Integração sistema de NF com Bitrix24</span></li>
+              <li><span>⏳</span><span>Validação dos indicadores de BI com Seccol</span></li>
+              <li><span>⏳</span><span>Migração da base legada (Excel → CRM)</span></li>
+              <li><span>⏳</span><span>Treinamento da equipe (comercial + técnicos)</span></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Scroll anchor for Next Steps link -->
+        <div id="nextsteps-section" style="scroll-margin-top: 40px;">
+          <div class="ns-grid">
+            <div class="ns-card">
+              <div class="ns-hd">📋 Traevo — Ações Internas</div>
+              <div class="ns-bd">
+                <div class="ns-item"><span>→</span><span>Apresentar documento à Seccol e validar escopo</span></div>
+                <div class="ns-item"><span>→</span><span>Alinhar arquitetura dos 3 pipelines com Carla e Ivana</span></div>
+                <div class="ns-item"><span>→</span><span>Definir cronograma de implementação (5-10 semanas)</span></div>
+                <div class="ns-item"><span>→</span><span>Iniciar configuração após validação</span></div>
+              </div>
+            </div>
+            <div class="ns-card">
+              <div class="ns-hd">📦 Seccol — Dever de Casa</div>
+              <div class="ns-bd">
+                <div class="ns-item"><span>→</span><span>Detalhar processo de faturamento interno</span></div>
+                <div class="ns-item"><span>→</span><span>Enviar tabela de preços por serviço/equipamento</span></div>
+                <div class="ns-item"><span>→</span><span>Fornecer modelo de proposta comercial atual</span></div>
+                <div class="ns-item"><span>→</span><span>Validar indicadores de BI propostos</span></div>
+              </div>
+            </div>
+            <div class="ns-card">
+              <div class="ns-hd">🔧 Configuração Bitrix24</div>
+              <div class="ns-bd">
+                <div class="ns-item"><span>→</span><span>Criar 3 pipelines com etapas e campos obrigatórios</span></div>
+                <div class="ns-item"><span>→</span><span>Configurar automações por etapa</span></div>
+                <div class="ns-item"><span>→</span><span>Integrar WhatsApp + VoIP + e-mail</span></div>
+                <div class="ns-item"><span>→</span><span>Configurar geração da OS em PDF automática</span></div>
+              </div>
+            </div>
+            <div class="ns-card">
+              <div class="ns-hd">👥 Treinamento &amp; Go-live</div>
+              <div class="ns-bd">
+                <div class="ns-item"><span>→</span><span>Treinamento equipe comercial (Carla, Ivana, Milena)</span></div>
+                <div class="ns-item"><span>→</span><span>Treinamento técnicos para uso do app mobile</span></div>
+                <div class="ns-item"><span>→</span><span>Migração dos clientes da planilha para o CRM</span></div>
+                <div class="ns-item"><span>→</span><span>Go-live acompanhado + 30 dias de suporte</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+
+  <!-- ── TOAST CONTAINER ── -->
+  <div class="neo-toast" id="toast">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <span id="toast-text">Notificação</span>
+  </div>
+
+  <script>
+    // ── MAIN TABS MAP & SWITCHING
+    const mainMap = {
+      visao: 'tp-visao',
+      pipelines: 'tp-pipelines',
+      faturamento: 'tp-faturamento',
+      os: 'tp-os',
+      integracoes: 'tp-integracoes',
+      status: 'tp-status'
+    };
+
+    function switchMain(key) {
+      // Hide all panes
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      
+      // Update sidebar active states
+      document.querySelectorAll('.sb-item').forEach(item => item.classList.remove('active'));
+      document.querySelectorAll('.sb-sub-item').forEach(item => item.classList.remove('active'));
+      
+      const targetPane = document.getElementById(mainMap[key]);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+
+      // Sync active tab button visual
+      const idx = { visao: 0, pipelines: 1, faturamento: 2, os: 3, integracoes: 4, status: 5 };
+      const selectedTab = document.querySelectorAll('.tab')[idx[key]];
+      if (selectedTab) {
+        selectedTab.classList.add('active');
+      }
+
+      // Sync sidebar visual 
+      if (key === 'visao') {
+        document.getElementById('sb-item-visao').classList.add('active');
+      } else if (key === 'pipelines') {
+        document.getElementById('sb-item-pipelines-root').classList.add('active');
+      } else if (key === 'faturamento') {
+        // Linked to nothing specific in image, let's keep it visually independent or assign tab highlighting
+      } else if (key === 'os') {
+        document.getElementById('sb-item-os').classList.add('active');
+      } else if (key === 'integracoes') {
+        document.getElementById('sb-item-integracoes').classList.add('active');
+      } else if (key === 'status') {
+        document.getElementById('sb-item-status').classList.add('active');
+      }
+
+      // Close mobile sidebar on transition
+      document.getElementById('app-sidebar').classList.remove('open');
+    }
+
+    // Scroll to Diagnostics Card section in Visão Geral
+    function scrollToDiagnostics() {
+      switchMain('visao');
+      document.getElementById('sb-item-diag').classList.add('active');
+      setTimeout(() => {
+        document.getElementById('diagnostics-section').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    // Scroll to Next Steps section in Status
+    function scrollToNextSteps() {
+      switchMain('status');
+      document.getElementById('sb-item-proximos').classList.add('active');
+      setTimeout(() => {
+        document.getElementById('nextsteps-section').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    // Mobile Sidebar Toggle
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('app-sidebar');
+      sidebar.classList.toggle('open');
+    }
+
+    // ── INNER TABS (pipelines)
+    function switchInner(key) {
+      document.querySelectorAll('.inner-pane').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.sb-sub-item').forEach(item => item.classList.remove('active'));
+      
+      document.getElementById('ip-' + key).classList.add('active');
+      const idx = { vendas: 0, manutencao: 1, faturamento: 2 };
+      document.querySelectorAll('.inner-tab')[idx[key]].classList.add('active');
+
+      // Highlight active sub-menu item
+      if (key === 'vendas') {
+        document.getElementById('sb-sub-vendas').classList.add('active');
+      } else if (key === 'manutencao') {
+        document.getElementById('sb-sub-manutencao').classList.add('active');
+      } else if (key === 'faturamento') {
+        document.getElementById('sb-sub-faturamento').classList.add('active');
+      }
+    }
+
+    // ── ETAPA TOGGLE
+    function toggleEtapa(id) {
+      const hd = document.getElementById('hd-' + id);
+      const bd = document.getElementById('bd-' + id);
+      if (hd && bd) {
+        hd.classList.toggle('open');
+        bd.classList.toggle('open');
+      }
+    }
+
+    // ── TOAST HELPER
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.innerText = text;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // ── BUILD ACCORDION ETAPA NEOPUTAL STYLE
+    function buildEtapa(id, num, title, resp, rows, campos, acoes) {
+      const r = rows.map(x => `<tr class="${x.hl ? 'hl' : ''}"><td style="font-weight: 800; width: 28%; background: var(--gray-50);">${x.k}</td><td>${x.v}</td></tr>`).join('');
+      
+      const ca = campos.length ? campos.map((f, i) => `
+        <tr>
+          <td class="nc">${i + 1}</td>
+          <td style="font-weight:700;">${f.n}</td>
+          <td>${f.t}</td>
+          <td>
+            <span class="fat-chip ${f.ob === 'ob' ? 'fc-amber' : f.ob === 'auto' ? 'fc-blue' : 'fc-green'}" style="font-size:9px;">
+              ${f.ob === 'ob' ? 'Obrigatório' : f.ob === 'auto' ? 'Auto' : 'Opcional'}
+            </span>
+          </td>
+        </tr>
+      `).join('') : '<tr><td colspan="4" style="color:var(--gray-400);font-style:italic;padding:12px 16px">Campos herdados das etapas anteriores</td></tr>';
+      
+      const ac = acoes.map((a, i) => `
+        <tr>
+          <td class="nc">${i + 1}</td>
+          <td style="font-weight: 800; color: ${a.tipo === 'auto' ? 'var(--accent-purple)' : 'var(--accent-blue)'}">
+            ${a.tipo === 'auto' ? 'Automação' : 'Atividade'}
+          </td>
+          <td>${a.desc}</td>
+          <td style="font-weight: 700;">${a.resp}</td>
+        </tr>
+      `).join('');
+
+      return `
+        <div class="etapa">
+          <div class="etapa-hd" id="hd-${id}" onclick="toggleEtapa('${id}')">
+            <span class="num-badge">ETAPA ${num}</span>
+            <h3>${title}</h3>
+            <span class="resp">${resp}</span>
+            <span class="chev">▼</span>
+          </div>
+          <div class="etapa-body" id="bd-${id}">
+            <div class="neo-table-wrapper" style="margin: 0; border: none; border-bottom: var(--border-thick) solid var(--black); border-radius: 0; box-shadow: none;">
+              <table class="neo-table">${r}</table>
+            </div>
+            
+            <div class="sub-hd">Campos Obrigatórios do CRM</div>
+            <div class="neo-table-wrapper" style="margin: 16px; box-shadow: none;">
+              <table class="neo-table">
+                <thead>
+                  <tr>
+                    <th class="nc">#</th>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Obrigatoriedade</th>
+                  </tr>
+                </thead>
+                <tbody>${ca}</tbody>
+              </table>
+            </div>
+
+            <div class="sub-hd">Ações, Automações &amp; Atividades</div>
+            <div class="neo-table-wrapper" style="margin: 16px; box-shadow: none;">
+              <table class="neo-table">
+                <thead>
+                  <tr>
+                    <th class="nc">#</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                    <th>Responsável / Sistema</th>
+                  </tr>
+                </thead>
+                <tbody>${ac}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // ── DATA FOR PIPELINES
+    const vendas = [
+      {num:'01',title:'Prospecção / Mapeamento de Conta',resp:'Milena / Ivana',rows:[{k:'Objetivo',v:'Identificar e registrar instituições com potencial (oncologia, reprodução humana, farmácias de manipulação, labs) que ainda não são clientes Seccol.'},{k:'Descrição',v:'Mapeamento ativo por segmento e UF. Pesquisa em bases do setor, indicações de clientes atuais, participação em eventos (SBCC, ANVISA). Registro imediato no Bitrix24.'},{k:'Canal',v:'Telefone (1ª tentativa), WhatsApp, LinkedIn, indicação de cliente atual'},{k:'Ferramentas',v:'Bitrix24 CRM (cadastro de lead), WhatsApp integrado, telefonia VoIP'},{k:'Tempo Máximo',v:'3 dias úteis para primeira tentativa de contato após registro'},{k:'Gatilho de Passagem',v:'Lead registrado com dados básicos e pelo menos 1 tentativa de contato documentada',hl:true},{k:'Taxa de Conversão',v:'60% (prospecção → primeiro contato realizado)'},{k:'Motivos de Perda',v:'Contato inválido; fora do perfil; região sem cobertura técnica'}],campos:[{n:'Nome da Instituição',t:'Texto',ob:'ob'},{n:'Segmento / Especialidade',t:'Lista (oncologia, reprodução, farmácia, lab, cirúrgico)',ob:'ob'},{n:'Cidade / UF',t:'Texto + Lista UF',ob:'ob'},{n:'Nome do Contato Inicial',t:'Texto',ob:'ob'},{n:'Cargo / Função',t:'Texto',ob:'op'},{n:'Telefone / WhatsApp',t:'Telefone',ob:'ob'},{n:'Origem do Lead',t:'Lista (indicação, prospecção, evento, redes sociais)',ob:'ob'},{n:'Data da 1ª Tentativa de Contato',t:'Data',ob:'ob'}],acoes:[{tipo:'auto',desc:'Ao criar card, disparar tarefa: "Realizar 1ª tentativa de contato em até 3 dias úteis"',resp:'Bitrix24'},{tipo:'atv',desc:'Registrar resultado de cada tentativa no histórico do card',resp:'Milena / Ivana'},{tipo:'auto',desc:'Se não houver movimentação em 3 dias úteis, enviar alerta para Carla',resp:'Bitrix24'}]},
+      {num:'02',title:'Primeiro Contato / Qualificação',resp:'Milena / Ivana',rows:[{k:'Objetivo',v:'Conectar com o decisor técnico, confirmar perfil de cliente e levantar dados básicos sobre equipamentos e situação atual de manutenção.'},{k:'Canal',v:'Telefone (preferencial), WhatsApp para envio de material institucional'},{k:'Ferramentas',v:'Bitrix24 (histórico de ligações + WhatsApp integrado), e-mail para envio de folder'},{k:'Tempo Máximo',v:'5 dias úteis (máx. 3 tentativas de contato)'},{k:'Gatilho de Passagem',v:'Decisor técnico identificado e contatado; pelo menos 1 dado sobre equipamentos registrado; interesse em proposta confirmado',hl:true},{k:'Taxa de Conversão',v:'55%'},{k:'Motivos de Perda',v:'Decisor não localizado após 3 tentativas; contrato vigente com concorrente; sem interesse declarado'}],campos:[{n:'Decisor Técnico (nome + cargo)',t:'Texto',ob:'ob'},{n:'Fornecedor de Manutenção Atual',t:'Texto',ob:'op'},{n:'Data da Próxima Manutenção Prevista',t:'Data',ob:'op'},{n:'Equipamentos Mencionados (tipo / qtd)',t:'Texto livre',ob:'ob'},{n:'Nível de Abertura',t:'Lista (alta / média / baixa)',ob:'ob'}],acoes:[{tipo:'atv',desc:'Registrar resultado de cada contato: respondeu / não respondeu / agendou retorno',resp:'Milena / Ivana'},{tipo:'auto',desc:'Se "Data da Próxima Manutenção" preenchida, criar lembrete automático 30 dias antes para recontato',resp:'Bitrix24'},{tipo:'auto',desc:'Se "Nível de Abertura = baixa" e sem agendamento em 5 dias, mover para Perda com motivo',resp:'Bitrix24'}]},
+      {num:'03',title:'Levantamento Técnico',resp:'Carla / Ivana',rows:[{k:'Objetivo',v:'Mapear em detalhes os equipamentos, histórico de manutenções, tipo de certificação exigida e consumíveis para elaborar proposta precisa.'},{k:'Canal',v:'E-mail (envio de ficha técnica), telefone ou videochamada'},{k:'Ferramentas',v:'Bitrix24 (campos técnicos do card), e-mail integrado'},{k:'Tempo Máximo',v:'7 dias úteis para retorno com dados técnicos'},{k:'Gatilho de Passagem',v:'Ficha técnica de equipamentos preenchida no CRM; tipo de serviço e periodicidade definidos; certificações identificadas',hl:true},{k:'Taxa de Conversão',v:'75%'},{k:'Motivos de Perda',v:'Equipamentos fora do escopo; cliente não responde após 2 follow-ups; projeto cancelado'}],campos:[{n:'Lista de Equipamentos (tipo, marca, modelo, qtd)',t:'Texto detalhado',ob:'ob'},{n:'Tipo de Serviço Necessário',t:'Múltipla escolha (certificação, preventiva, corretiva, projeto)',ob:'ob'},{n:'Certificação Exigida',t:'Múltipla escolha (ANVISA, SBCC, ISO 14644, outra)',ob:'ob'},{n:'Periodicidade Desejada',t:'Lista (trimestral, quadrimestral, semestral, anual)',ob:'ob'},{n:'Consumíveis Utilizados Atualmente',t:'Texto',ob:'op'},{n:'Visita Técnico Realizada?',t:'Sim / Não',ob:'op'}],acoes:[{tipo:'atv',desc:'Enviar formulário/ficha de levantamento técnico por e-mail',resp:'Ivana / Carla'},{tipo:'auto',desc:'Se não houver retorno em 4 dias úteis, enviar lembrete automático por WhatsApp',resp:'Bitrix24'},{tipo:'atv',desc:'Confirmar recebimento dos dados técnicos e registrar no card antes de avançar',resp:'Carla'}]},
+      {num:'04',title:'Apresentação da Solução',resp:'Carla',rows:[{k:'Objetivo',v:'Apresentar a Seccol, seus diferenciais técnicos e a solução personalizada, gerando confiança e posicionando como melhor escolha para o segmento.'},{k:'Canal',v:'Telefone ou videochamada; e-mail para envio de material após reunião'},{k:'Ferramentas',v:'Apresentação Seccol (PDF), Bitrix24, e-mail integrado'},{k:'Tempo Máximo',v:'3 dias úteis para agendar e realizar após levantamento'},{k:'Gatilho de Passagem',v:'Apresentação realizada; cliente demonstrou interesse e solicitou proposta formal; feedback registrado',hl:true},{k:'Taxa de Conversão',v:'70%'},{k:'Motivos de Perda',v:'Preferência pelo fornecedor atual; não reconhece diferencial; timing ruim'}],campos:[{n:'Data da Apresentação',t:'Data',ob:'ob'},{n:'Formato',t:'Lista (telefone, videochamada, presencial)',ob:'ob'},{n:'Feedback do Cliente',t:'Texto livre',ob:'ob'},{n:'Objeções Levantadas',t:'Texto livre',ob:'op'},{n:'Próximo Passo Acordado',t:'Texto',ob:'ob'}],acoes:[{tipo:'atv',desc:'Registrar resultado da apresentação no card (interesse, objeções, próximo passo)',resp:'Carla'},{tipo:'auto',desc:'Enviar e-mail de follow-up com material de apoio automaticamente após reunião (template)',resp:'Bitrix24'}]},
+      {num:'05',title:'Proposta / Orçamento Enviado',resp:'Carla',rows:[{k:'Objetivo',v:'Formalizar e enviar proposta técnico-comercial personalizada com serviços, periodicidade, certificações e condições de pagamento.'},{k:'Canal',v:'E-mail (envio da proposta em PDF) + confirmação por WhatsApp'},{k:'Tempo Máximo',v:'2 dias úteis para elaborar e enviar após apresentação'},{k:'Gatilho de Passagem',v:'Proposta enviada por e-mail; confirmação de recebimento registrada no card',hl:true},{k:'Taxa de Conversão',v:'60%'},{k:'Motivos de Perda',v:'Preço acima do orçamento; concorrente mais competitivo; cliente adiou sem data'}],campos:[{n:'Nº da Proposta',t:'Texto',ob:'ob'},{n:'Valor Total da Proposta (R$)',t:'Moeda',ob:'ob'},{n:'Serviços Incluídos',t:'Múltipla escolha',ob:'ob'},{n:'Periodicidade Proposta',t:'Lista',ob:'ob'},{n:'Validade da Proposta',t:'Data',ob:'ob'},{n:'Data de Envio',t:'Data',ob:'ob'},{n:'Recebimento Confirmado pelo Cliente?',t:'Sim / Não',ob:'ob'}],acoes:[{tipo:'atv',desc:'Enviar proposta por e-mail e confirmar recebimento por WhatsApp em até 1 dia útil',resp:'Carla'},{tipo:'auto',desc:'Criar lembrete automático de follow-up para 3 dias úteis após envio',resp:'Bitrix24'},{tipo:'auto',desc:'Alerta para Carla se proposta estiver próxima do vencimento (2 dias antes) e ainda não fechada',resp:'Bitrix24'}]},
+      {num:'06',title:'Negociação / Follow-up',resp:'Carla / Ivana',rows:[{k:'Objetivo',v:'Acompanhar ativamente o cliente após o envio da proposta, responder dúvidas, contornar objeções e manter o interesse até a decisão final.'},{k:'Canal',v:'Telefone (preferencial), WhatsApp'},{k:'Ferramentas',v:'Bitrix24 (histórico de atividades), telefonia VoIP (gravação), WhatsApp integrado'},{k:'Tempo Máximo',v:'5 dias úteis após envio da proposta (3 tentativas máximo)'},{k:'Gatilho de Passagem',v:'Cliente confirma aceite da proposta (verbal ou escrito) ou solicita ajuste específico negociado e aprovado',hl:true},{k:'Taxa de Conversão',v:'65%'},{k:'Motivos de Perda',v:'Sem retorno após 3 tentativas; concorrente escolhido; orçamento não aprovado; projeto adiado'}],campos:[{n:'Nº de Tentativas de Follow-up',t:'Número',ob:'ob'},{n:'Status da Negociação',t:'Lista (em andamento, aguardando aprovação, adiado, concorrente)',ob:'ob'},{n:'Desconto Concedido (%)',t:'Número',ob:'op'},{n:'Condições Ajustadas',t:'Texto',ob:'op'}],acoes:[{tipo:'auto',desc:'Após 3 dias sem movimentação, enviar alerta para Carla e Ivana com instrução de contato telefônico',resp:'Bitrix24'},{tipo:'atv',desc:'Registrar resultado de cada tentativa: respondeu / negociando / aguardando aprovação',resp:'Carla / Ivana'},{tipo:'auto',desc:'Se "Status = concorrente escolhido", mover para Perda e criar tarefa de recontato em 90 dias',resp:'Bitrix24'}]},
+      {num:'07',title:'Fechamento — Cliente Ativo',resp:'Carla',rows:[{k:'Objetivo',v:'Formalizar o aceite, registrar o novo cliente na base e garantir que o fluxo operacional seja iniciado com agendamento da primeira manutenção.'},{k:'Tempo Máximo',v:'1 dia útil após aceite para cadastrar e disparar pipeline de manutenção'},{k:'Gatilho de Passagem',v:'Card criado e ativo no Pipeline Manutenção com data da primeira manutenção definida',hl:true},{k:'Taxa de Conversão',v:'100% (etapa de execução)'}],campos:[{n:'Data do Fechamento',t:'Data',ob:'ob'},{n:'Tipo de Acordo',t:'Lista (avulso, periódico recorrente, contrato formal)',ob:'ob'},{n:'Valor Total Contratado (R$)',t:'Moeda',ob:'ob'},{n:'Periodicidade Acordada',t:'Lista',ob:'ob'},{n:'Data da Primeira Manutenção',t:'Data',ob:'ob'},{n:'CNPJ / CPF do Cliente',t:'Texto',ob:'ob'},{n:'Endereço Completo (para OS e NF)',t:'Endereço',ob:'ob'}],acoes:[{tipo:'auto',desc:'<strong>Criar card automaticamente no Pipeline Manutenção</strong> com: cliente, equipamentos, periodicidade, data da 1ª manutenção',resp:'Bitrix24'},{tipo:'auto',desc:'Enviar e-mail de boas-vindas ao cliente com resumo do contratado e data da próxima manutenção',resp:'Bitrix24'},{tipo:'atv',desc:'Preencher cadastro completo do cliente no CRM (dados fiscais + endereço) em até 1 dia útil',resp:'Ivana'}]}
+    ];
+
+    const manutencao = [
+      {num:'01',title:'Programado — Aguardando Vencimento',resp:'Sistema (automático)',rows:[{k:'Objetivo',v:'Manter o registro de cada manutenção futura ativa no CRM com data prevista, pronto para ser acionado no momento correto.'},{k:'Descrição',v:'Card criado automaticamente ao fechar venda ou ao registrar manutenção anterior. Fica em espera até 90 dias antes do vencimento.'},{k:'Gatilho de Passagem',v:'Automação de data: 90 dias antes do vencimento, card avança automaticamente para Etapa 02',hl:true},{k:'Taxa de Conversão',v:'95%'}],campos:[{n:'Cliente (vinculado ao contato/empresa)',t:'Relacionamento CRM',ob:'ob'},{n:'Data Prevista da Manutenção',t:'Data',ob:'ob'},{n:'Periodicidade',t:'Lista (trimestral, quadrimestral, semestral, anual)',ob:'ob'},{n:'Equipamentos (tipo / qtd)',t:'Texto detalhado',ob:'ob'},{n:'Tipo de Serviço',t:'Lista (certificação, preventiva, corretiva)',ob:'ob'},{n:'Técnico Responsável (provisório)',t:'Usuário Bitrix24',ob:'op'}],acoes:[{tipo:'auto',desc:'90 dias antes da data prevista: avançar card para Etapa 02 automaticamente',resp:'Bitrix24'},{tipo:'auto',desc:'Relatório mensal: listar todos os cards com vencimento nos próximos 6 meses',resp:'Bitrix24'}]},
+      {num:'02',title:'Pré-Vencimento — Lembrete ao Cliente',resp:'Ivana / Milena',rows:[{k:'Objetivo',v:'Alertar o cliente com 90 dias de antecedência, iniciar alinhamento de datas e reforçar a importância da manutenção em dia para conformidade ANVISA/SBCC.'},{k:'Canal',v:'WhatsApp (1ª ação automática) + Telefone (confirmação humana em até 5 dias)'},{k:'Tempo Máximo',v:'15 dias para obter confirmação de disponibilidade do cliente'},{k:'Gatilho de Passagem',v:'Cliente confirma interesse em agendar e fornece pelo menos 2 datas disponíveis',hl:true},{k:'Taxa de Conversão',v:'85%'},{k:'Motivos de Perda',v:'Cliente cancelou contrato; mudança de endereço sem comunicação; reestruturação interna'}],campos:[{n:'Data do 1º Contato de Lembrete',t:'Data',ob:'ob'},{n:'Resposta do Cliente',t:'Lista (confirmou / adiou / cancelou / sem resposta)',ob:'ob'},{n:'Datas Disponíveis (cliente)',t:'Texto livre',ob:'op'}],acoes:[{tipo:'auto',desc:'Enviar WhatsApp automático de lembrete de vencimento ao entrar nesta etapa',resp:'Bitrix24'},{tipo:'atv',desc:'Contato telefônico para confirmar interesse e coletar datas disponíveis',resp:'Ivana / Milena'},{tipo:'auto',desc:'Se sem resposta em 7 dias, reenviar WhatsApp + criar tarefa de ligação urgente',resp:'Bitrix24'}]},
+      {num:'03',title:'Agendamento Confirmado',resp:'Ivana / Carla',rows:[{k:'Objetivo',v:'Definir e confirmar data, horário e técnico responsável, alinhando disponibilidade do cliente e da equipe Seccol.'},{k:'Canal',v:'WhatsApp (confirmação ao cliente), Bitrix24 app (notificação ao técnico)'},{k:'Tempo Máximo',v:'3 dias úteis para confirmar data após coleta de disponibilidade'},{k:'Gatilho de Passagem',v:'Data confirmada com cliente e técnico designado; tarefa criada para o técnico com dados completos da visita',hl:true},{k:'Taxa de Conversão',v:'98%'},{k:'Observações',v:'Verificar itens a consumir (filtros HEPA, grossos, etc.) com base na última OS.'}],campos:[{n:'Data Confirmada da Manutenção',t:'Data + Hora',ob:'ob'},{n:'Técnico Designado',t:'Usuário Bitrix24',ob:'ob'},{n:'Endereço de Execução',t:'Endereço',ob:'ob'},{n:'Materiais / Consumíveis a Levar',t:'Texto',ob:'op'},{n:'Confirmação do Cliente?',t:'Sim / Não',ob:'ob'}],acoes:[{tipo:'auto',desc:'Enviar WhatsApp de confirmação ao cliente com data, horário e nome do técnico',resp:'Bitrix24'},{tipo:'auto',desc:'Criar tarefa para o técnico com todos os dados: cliente, endereço, equipamentos, tipo de serviço, materiais',resp:'Bitrix24'},{tipo:'auto',desc:'1 dia antes: WhatsApp de lembrete ao cliente + notificação push ao técnico via app',resp:'Bitrix24'}]},
+      {num:'04',title:'OS Gerada — Aguardando Execução',resp:'Sistema (automático)',rows:[{k:'Objetivo',v:'Gerar automaticamente a OS em PDF a partir dos dados do card, disponibilizando ao técnico para consulta via app antes de ir a campo.'},{k:'Descrição',v:'A OS é um documento de referência — não é preenchida em campo. O técnico consulta via app Bitrix24 Mobile.'},{k:'Gatilho de Passagem',v:'Técnico confirma início do atendimento via check-in no app (geolocalização registrada)',hl:true},{k:'Taxa de Conversão',v:'98%'}],campos:[{n:'Nº da OS (gerado pelo sistema)',t:'Sequencial automático',ob:'auto'},{n:'Data e Hora de Execução Prevista',t:'Data + Hora',ob:'ob'},{n:'Técnico Designado',t:'Usuário Bitrix24',ob:'ob'},{n:'Dados do Cliente (nome, CNPJ, endereço)',t:'Puxado do cadastro',ob:'auto'},{n:'Equipamentos (tipo, marca, modelo, qtd)',t:'Do card',ob:'ob'},{n:'Atividade Solicitada / Tipo de Serviço',t:'Do card',ob:'ob'}],acoes:[{tipo:'auto',desc:'Ao entrar nesta etapa, gerar PDF da OS automaticamente e vincular à tarefa do técnico',resp:'Bitrix24'},{tipo:'auto',desc:'Notificar técnico via app: "OS disponível. Manutenção amanhã — [cliente/endereço]"',resp:'Bitrix24'},{tipo:'atv',desc:'Ivana revisar OS gerada e confirmar que dados estão corretos antes da execução',resp:'Ivana'}]},
+      {num:'05',title:'Em Execução — Técnico em Campo',resp:'Técnico externo',rows:[{k:'Objetivo',v:'Registrar a execução da manutenção com controle de início, fim e geolocalização, garantindo rastreabilidade completa do atendimento.'},{k:'Ferramentas',v:'Bitrix24 Mobile app (check-in/check-out, geolocalização, acesso à OS)'},{k:'Gatilho de Passagem',v:'Técnico realiza check-out no app + registra observações de campo na tarefa',hl:true},{k:'Taxa de Conversão',v:'95%'},{k:'Motivos de Não-Conclusão',v:'Cliente fechado inesperadamente; equipamento em corretiva urgente; peça indisponível (reagendar)'}],campos:[{n:'Data/Hora de Check-in',t:'Auto (app)',ob:'auto'},{n:'Geolocalização no Check-in',t:'GPS (app)',ob:'auto'},{n:'Data/Hora de Check-out',t:'Auto (app)',ob:'auto'},{n:'Observações de Campo',t:'Texto (técnico via app)',ob:'ob'},{n:'Intercorrência? (sim/não)',t:'Booleano',ob:'ob'}],acoes:[{tipo:'auto',desc:'Registrar geolocalização, data e hora do check-in automaticamente via app',resp:'Bitrix24'},{tipo:'auto',desc:'Ao check-out: avançar card para Etapa 06 e notificar Ivana para elaboração do laudo',resp:'Bitrix24'},{tipo:'auto',desc:'Se "Intercorrência = Sim", criar tarefa urgente para Carla avaliar e decidir reagendamento',resp:'Bitrix24'}]},
+      {num:'06',title:'Concluído — Elaboração do Laudo',resp:'Técnico / Ivana',rows:[{k:'Objetivo',v:'Elaborar e emitir o laudo técnico com base nas atividades executadas, entregando ao cliente o documento de conformidade.'},{k:'Tempo Máximo',v:'3 dias úteis após execução'},{k:'Gatilho de Passagem',v:'Laudo emitido, Nº do Relatório registrado no CRM e documento enviado ao cliente com confirmação',hl:true},{k:'Taxa de Conversão',v:'100%'},{k:'Observações',v:'Ponto crítico do processo atual. O CRM deve bloquear o avanço se Nº do Relatório estiver em branco.'}],campos:[{n:'Nº do Relatório / Laudo',t:'Texto (sequencial)',ob:'ob'},{n:'Data de Emissão do Laudo',t:'Data',ob:'ob'},{n:'Data de Envio ao Cliente',t:'Data',ob:'ob'},{n:'Recebimento Confirmado?',t:'Sim / Não',ob:'ob'},{n:'Atividade Executada (resumo)',t:'Texto',ob:'ob'},{n:'Próxima Manutenção Recomendada',t:'Data (calculada pela periodicidade)',ob:'ob'}],acoes:[{tipo:'atv',desc:'Elaborar laudo técnico e preencher campos obrigatórios no CRM',resp:'Técnico / Ivana'},{tipo:'auto',desc:'Bloquear avanço para Etapa 07 se "Nº do Relatório" ou "Data de Envio" estiverem em branco',resp:'Bitrix24'},{tipo:'atv',desc:'Enviar laudo ao cliente por e-mail e confirmar recebimento por WhatsApp',resp:'Ivana'}]},
+      {num:'07',title:'Encerrado — Laudo Entregue',resp:'Sistema (automático)',rows:[{k:'Objetivo',v:'Encerrar o ciclo de manutenção com todos os dados registrados, disparar o Pipeline Faturamento e recriar o próximo card com nova data.'},{k:'Gatilho de Passagem',v:'Laudo confirmed como recebido + todos os campos obrigatórios preenchidos',hl:true},{k:'Taxa de Conversão',v:'100%'}],campos:[],acoes:[{tipo:'auto',desc:'<strong>Criar card no Pipeline Faturamento</strong> com: cliente, nº OS, nº laudo, valor do serviço, data de execução, técnico',resp:'Bitrix24'},{tipo:'auto',desc:'<strong>Criar próximo card no Pipeline Manutenção</strong> com data = data atual + periodicidade acordada',resp:'Bitrix24'},{tipo:'auto',desc:'WhatsApp ao cliente: "Manutenção concluída. Próxima prevista para [data]. Obrigado!"',resp:'Bitrix24'}]}
+    ];
+
+    const fatPipeline = [
+      {num:'01',title:'Aguardando Dados / Validação',resp:'Ivana / Equipe Faturamento',rows:[{k:'Objetivo',v:'Validar que todos os dados necessários para emissão da NF estão presentes: laudo, nº OS, valor e dados fiscais do cliente.'},{k:'Tempo Máximo',v:'1 dia útil para validação'},{k:'Gatilho de Passagem',v:'Todos os dados fiscais e de serviço validados: CNPJ, endereço, nº OS, nº laudo, valor, tipo de serviço',hl:true},{k:'Taxa de Conversão',v:'98%'}],campos:[{n:'Nº da OS',t:'Texto / Relacionamento',ob:'ob'},{n:'Nº do Laudo',t:'Texto',ob:'ob'},{n:'Valor do Serviço (R$)',t:'Moeda',ob:'ob'},{n:'CNPJ / CPF do Cliente',t:'Texto',ob:'ob'},{n:'Dados Completos para NF?',t:'Sim / Não',ob:'ob'}],acoes:[{tipo:'auto',desc:'Criar tarefa automática para equipe de faturamento ao entrar nesta etapa',resp:'Bitrix24'},{tipo:'auto',desc:'Se "Dados Completos = Não", criar tarefa de pendência para Ivana com prazo de 1 dia',resp:'Bitrix24'}]},
+      {num:'02',title:'Em Elaboração — NF em Processo',resp:'Equipe Faturamento',rows:[{k:'Objetivo',v:'Emitir a NF de serviço no sistema fiscal da empresa, registrando nº e data de emissão no CRM.'},{k:'Tempo Máximo',v:'1 dia útil para emitir NF após validação'},{k:'Gatilho de Passagem',v:'Nº da NF registrado no card + data de emissão preenchida',hl:true},{k:'Taxa de Conversão',v:'100%'}],campos:[{n:'Nº da Nota Fiscal',t:'Texto',ob:'ob'},{n:'Data de Emissão da NF',t:'Data',ob:'ob'},{n:'Valor da NF (R$)',t:'Moeda',ob:'ob'}],acoes:[{tipo:'atv',desc:'Emitir NF no sistema fiscal externo e registrar nº e data no card do Bitrix24',resp:'Equipe Faturamento'},{tipo:'auto',desc:'Ao preencher Nº da NF, avançar card automaticamente para Etapa 03',resp:'Bitrix24'},{tipo:'auto',desc:'Se NF não emitida em 1 dia útil, criar alerta para Carla',resp:'Bitrix24'}]},
+      {num:'03',title:'NF Emitida — Cobrança Enviada',resp:'Equipe Faturamento / Ivana',rows:[{k:'Objetivo',v:'Enviar NF e boleto/link de pagamento ao cliente por e-mail, confirmar recebimento e registrar data de vencimento.'},{k:'Tempo Máximo',v:'1 dia útil após emissão da NF'},{k:'Gatilho de Passagem',v:'NF e cobrança enviadas + data de vencimento registrada no card',hl:true},{k:'Taxa de Conversão',v:'98%'}],campos:[{n:'Data de Envio ao Cliente',t:'Data',ob:'ob'},{n:'Data de Vencimento do Pagamento',t:'Data',ob:'ob'},{n:'Forma de Pagamento',t:'Lista (boleto, PIX, transferência)',ob:'ob'}],acoes:[{tipo:'auto',desc:'Enviar e-mail automático ao cliente com NF e instruções de pagamento (template)',resp:'Bitrix24'},{tipo:'auto',desc:'5 dias antes do vencimento: lembrete de pagamento via WhatsApp',resp:'Bitrix24'},{tipo:'auto',desc:'No dia do vencimento sem confirmação: criar tarefa de cobrança para equipe faturamento',resp:'Bitrix24'}]},
+      {num:'04',title:'Aguardando Pagamento',resp:'Equipe Faturamento',rows:[{k:'Objetivo',v:'Monitorar o prazo de pagamento e acionar o cliente em caso de atraso, evitando inadimplência.'},{k:'Gatilho de Passagem',v:'Pagamento confirmado + data de recebimento registrada',hl:true},{k:'Taxa de Conversão',v:'92%'},{k:'Motivos de Não-Pagamento',v:'Inadimplência; disputa de valor; dado bancário incorreto; corte de orçamento'}],campos:[{n:'Data de Vencimento (controle)',t:'Data',ob:'ob'},{n:'Status do Pagamento',t:'Lista (aguardando / atrasado / disputado / cancelado)',ob:'ob'}],acoes:[{tipo:'auto',desc:'1 dia após vencimento sem pagamento: criar tarefa urgente + WhatsApp de cobrança ao cliente',resp:'Bitrix24'},{tipo:'auto',desc:'5 dias em atraso: escalonar para Carla com histórico completo do card',resp:'Bitrix24'}]},
+      {num:'05',title:'Concluído — Pago',resp:'Equipe Faturamento',rows:[{k:'Objetivo',v:'Confirmar e registrar o recebimento do pagamento, encerrar o ciclo financeiro e alimentar os indicadores de receita do período.'},{k:'Gatilho de Passagem',v:'Data de recebimento registrada + valor confirmado = card encerrado como "ganho"',hl:true},{k:'Taxa de Conversão',v:'100%'}],campos:[],acoes:[{tipo:'atv',desc:'Confirmar recebimento no card ao identificar pagamento',resp:'Equipe Faturamento'},{tipo:'auto',desc:'Encerrar card como "ganho" e alimentar painel de BI com valor e data',resp:'Bitrix24'}]}
+    ];
+
+    function renderEtapas(data, containerId) {
+      document.getElementById(containerId).innerHTML = data.map((e, i) => 
+        buildEtapa(containerId + '-' + i, e.num, e.title, e.resp, e.rows, e.campos, e.acoes)
+      ).join('');
+    }
+
+    // Initialize Page
+    window.onload = function() {
+      renderEtapas(vendas, 'etapas-vendas');
+      renderEtapas(manutencao, 'etapas-manutencao');
+      renderEtapas(fatPipeline, 'etapas-fat-pipeline');
+    };
+  </script>
+</body>
+</html>
